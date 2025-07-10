@@ -1,25 +1,44 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import TitleHeader from "../components/TitleHeader";
 import ContactExperience from "../components/Contact/ContactExperience";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
+  const formRef = useRef(null);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSumbit = (e) => {
+  const handleSumbit = async (e) => {
     e.preventDefault();
     // Handle submission logic here
-    console.log("form submitted:", formData);
-    // Reset form after submissions
-    setFormData({ name: "", email: "", message: "" });
+
+    setLoading(true);
+    try {
+      await emailjs.sendForm(
+        import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
+      );
+
+      // Reset form after submissions
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.log("EMAILJS ERROR", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -34,43 +53,50 @@ const Contact = () => {
               <form
                 onSubmit={handleSumbit}
                 className="w-full flex flex-col gap-7"
+                ref={formRef}
               >
                 <div>
-                  <label htmlFor="name">Name</label>
+                  <label htmlFor="name">Your Name</label>
                   <input
                     type="text"
                     id="name"
                     name="name"
-                    placeholder="your name"
                     value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Your name"
+                    required
                   />
                 </div>
                 <div>
-                  <label htmlFor="name">Email</label>
+                  <label htmlFor="name">Your Email</label>
                   <input
                     type="email"
                     id="email"
                     name="email"
-                    placeholder="your email address"
+                    placeholder="Your email address"
+                    onChange={handleChange}
                     value={formData.email}
+                    required
                   />
                 </div>
                 <div>
-                  <label htmlFor="message">Messahe</label>
+                  <label htmlFor="message">Your Message</label>
                   <textarea
                     id="message"
                     name="message"
                     rows="5"
-                    placeholder="your message"
+                    placeholder="Your message"
                     value={formData.message}
                     onChange={handleChange}
                     required
                   ></textarea>
                 </div>
-                <button type="submit">
+                <button type="submit" disabled={loading}>
                   <div className="cta-button group">
                     <div className="bg-circle" />
-                    <p className="text">Send Message</p>
+                    <p className="text">
+                      {loading ? "Sending..." : "Send Message"}
+                    </p>
                     <div className="arrow-wrapper">
                       <img src="/images/arrow-down.svg" alt="arrow" />
                     </div>
