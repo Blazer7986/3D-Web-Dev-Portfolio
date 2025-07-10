@@ -51,7 +51,7 @@ const TechStack = () => {
             </div>
           ))}
 
-          {/* {techStackImgs.map((icon) => (
+          {techStackImgs.map((icon) => (
             <div
               key={icon.name}
               className="card-border tech-card overflow-hidden group 
@@ -67,7 +67,7 @@ const TechStack = () => {
                 </div>
               </div>
             </div>
-          ))} */}
+          ))}
         </div>
       </div>
     </div>

@@ -13,7 +13,16 @@ const Footer = () => {
         <div className="socials">
           {socialImgs.map((socialImg, index) => (
             <div key={index} className="icon">
-              <img src={socialImg.imgPath} alt="social icon" />
+              <a
+                href={
+                  socialImg.name === "Business Email"
+                    ? `mailto:${socialImg.linkPath}`
+                    : socialImg.linkPath
+                }
+                target="_blank"
+              >
+                <img src={socialImg.imgPath} alt="social icon" />
+              </a>
             </div>
           ))}
         </div>
@@ -21,7 +30,7 @@ const Footer = () => {
         {/* RIGHT SIDE */}
         <div className="flex flex-col justify-center">
           <p className="text-center md:text-end">
-            © {new Date().getFullYear()} Adrian Hajdin. All rights reserved.
+            © {new Date().getFullYear()} Vianey Rivera. All rights reserved.
           </p>
         </div>
       </div>
