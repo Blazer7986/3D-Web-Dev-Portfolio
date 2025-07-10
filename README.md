@@ -1,6 +1,6 @@
 # Deployment of Website
-**You can find my 3D Development Portfolio Website using the link below:**
-***[Google](https://vianeyrivera.com)***
+**You can find my 3D Development Portfolio Website using the link below:**<br/>
+***[vianeyrivera.com](https://vianeyrivera.com)***
 
 ## React + Vite
 
